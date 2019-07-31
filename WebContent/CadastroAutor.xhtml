@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="_template.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="titulo">Cadastro de Autor</ui:define>
+
+	<!--  
+	<f:metadata>
+		<f:viewParam name="autorId" value="#{autorController.autor}" />
+		<f:viewAction action="#{autorController.buscaAutorPorId}"
+			if="#{param.autorId != null}" />
+	</f:metadata>
+	-->
+
+
+	<ui:define name="content">
+		<h:form id="formAutor" prependId="false">
+			<p:messages layout="table" errorStyle="color: red"
+				warnStyle="color: yellow" infoStyle="color: blue" globalOnly="true"
+				autoUpdate="true" />
+
+			<p:fieldset legend="Dados do Autor">
+				<h:panelGrid columns="3">
+					<p:outputLabel value="Nome" for="nome" />
+					<h:panelGroup>
+						<p:inputText id="nome" value="#{autorController.autor.nome}"
+							required="true"
+							requiredMessage="O nome do Autor é de preenchimento obrigatório">
+							<f:validateLength minimum="5" />
+						</p:inputText>
+					</h:panelGroup>
+					<p:message for="nome" id="messageNome" />
+
+					<p:outputLabel value="Email" for="email" />
+					<h:panelGroup>
+						<p:inputText id="email" value="#{autorController.autor.email}"
+							required="true"
+							requiredMessage="O email do Autor é de preenchimento obrigatório"
+							validatorMessage="Email inválido!">
+							<f:attribute name="type" value="email" />
+							<f:passThroughAttribute name="placeholder" value="Email do autor"></f:passThroughAttribute>
+							<f:validateRegex pattern=".+@.+" />
+						</p:inputText>
+					</h:panelGroup>
+					<p:message for="email" id="messageEmail" />
+
+					<p:commandButton value="Salvar" action="#{autorController.salvar}"
+						process="@form" update="@form" />
+				</h:panelGrid>
+			</p:fieldset>
+
+			<p:fieldset legend="Autores Cadastrados">
+				<p:dataList id="tabelaAutores" var="autor" value="#{autorController.listaAutores}"
+					type="definition">
+					
+					<f:facet name="header">
+						Autores
+					</f:facet>
+					
+					<p:commandButton
+						icon="fa fa-fw fa-edit"
+						action="#{autorController.carregarDadosAutor(autor)}"
+						process="@this" update="@form" immediate="true"/>
+
+					<p:commandButton action="#{autorController.excluir(autor)}"
+						icon="fa fa-fw fa-remove" style="float: left; margin-right: 10px;"
+						 process="@this" update="@form"
+						immediate="true" />
+					
+					#{autor.nome} - #{autor.email}
+				</p:dataList>
+			</p:fieldset>
+		</h:form>
+	</ui:define>
+
+</ui:composition>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
